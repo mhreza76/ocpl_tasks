@@ -4,11 +4,18 @@
 
     <section>
         <div class="container-fluid">
+
+            {!! Session::has('success') ? '<div class="alert alert-success alert-dismissible">
+       <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'. Session::get("success") .'</div>' : '' !!}
+            {!! Session::has('error') ? '<div class="alert alert-danger alert-dismissible">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'. Session::get("error") .'</div>' : '' !!}
+
+
             <div class="card">
                 <div class="card-header  card_main text-dark font-weight-bold">Basic Form Builder</div>
-                <!-- <div class="card-body"> -->
-                <form action="/store" method="post" name="frmInfo" id="frmInfo">
-                    @csrf
+
+                <form method="post" action="/store" name="frmInfo" id="frmInfo">
+                    {{ csrf_field() }}
                     <div class="step-app" id="demo">
 
                         <ul class="step-steps">
@@ -35,10 +42,11 @@
                                                     <div class="row pb-1">
                                                         <label for="division"
                                                                class="col-sm-4 col-form-label">Division</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="division"
-                                                                   name="division" value="" placeholder="Dhaka"
-                                                                   required>
+                                                        <div class="col-sm-8 " >
+                                                            <input type="text" class="form-control {{$errors->has('division') ? 'has-error': ''}}" id="division"
+                                                                   name="division" value="{{old('division')}}" placeholder="type your division"
+                                                                   >
+                                                            {!! $errors->first('division','<span class="help-block">:message</span>') !!}
                                                         </div>
                                                     </div>
                                                     <div class="row pb-1">
@@ -46,8 +54,8 @@
                                                             Station</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="police_station"
-                                                                   name="police_station" value=""
-                                                                   placeholder="Uttara West" required>
+                                                                   name="police_station"
+                                                                   placeholder="type your police station" value="{{old('police_station')}}">
                                                         </div>
                                                     </div>
                                                     <div class="row pb-1">
@@ -55,16 +63,16 @@
                                                             Code</label>
                                                         <div class="col-sm-8">
                                                             <input type="number" class="form-control" id="post_code"
-                                                                   name="post_code" value="" placeholder="1230" required>
+                                                                   name="post_code" value="{{old('post_code')}}" >
                                                         </div>
                                                     </div>
                                                     <div class="row pb-1">
                                                         <label for="telephone_number" class="col-sm-4 col-form-label">Telephone
                                                             No</label>
                                                         <div class="col-sm-8">
-                                                            <input type="number" class="form-control"
+                                                            <input type="text" class="form-control"
                                                                    id="telephone_number" name="telephone_number"
-                                                                   placeholder="01611211563" value="" required>
+                                                                    value="{{old('telephone_number')}}" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -74,15 +82,15 @@
                                                                class="col-sm-4 col-form-label">District</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="district"
-                                                                   name="district" value="" placeholder="Naogaon" required>
+                                                                   name="district" value="{{old('district')}}"  >
                                                         </div>
                                                     </div>
                                                     <div class="row pb-1">
                                                         <label for="post_office" class="col-sm-4 col-form-label">Post
                                                             Office</label>
                                                         <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="post_office"
-                                                                   name="post_office" value="" placeholder="" >
+                                                            <input type="number" class="form-control" id="post_office"
+                                                                   name="post_office" value="{{old('post_office')}}"  >
                                                         </div>
                                                     </div>
                                                     <div class="row pb-1">
@@ -91,7 +99,7 @@
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="house_flat_road"
                                                                    name="house_flat_road"
-                                                                   placeholder="House, Flat, Road" value="">
+                                                                   placeholder="House, Flat, Road" value="{{old('house_flat_road')}}">
                                                         </div>
                                                     </div>
 
@@ -99,8 +107,8 @@
                                                         <label for="email" class="col-sm-4 col-form-label">Email</label>
                                                         <div class="col-sm-8">
                                                             <input type="email" class="form-control" id="email"
-                                                                   name="email" placeholder="test@testmail.com"
-                                                                   value="">
+                                                                   name="email"
+                                                                   value="{{old('email')}}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,42 +125,40 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <label for="name_of_company_eng" class="col-sm-6 col-form-label">Name of
+                                            <label for="name_of_org_eng" class="col-sm-6 col-form-label">Name of
                                                 Organization/ Company/
                                                 Industrial Project(English)</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" for="name_of_company_eng"
-                                                       id="name_of_company_eng" value=""
-                                                       placeholder="Master Array Ltd." required>
+                                                <input type="text" class="form-control" name="name_of_org_eng"
+                                                       id="name_of_org_eng" value="{{old('name_of_org_eng')}}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="name_of_company_ban" class="col-sm-6 col-form-label">Name of
+                                            <label for="name_of_org_ban" class="col-sm-6 col-form-label">Name of
                                                 Organization/ Company/
                                                 Industrial Project(Bangla)</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" for="name_of_company_ban"
-                                                       id="name_of_company_ban" value=""
-                                                       placeholder="মাস্টার অ্যারে লি.">
+                                                <input type="text" class="form-control" name="name_of_org_ban"
+                                                       id="name_of_org_ban" value="{{old('name_of_org_ban')}}">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="name_of_company_eng" class="col-sm-3 col-form-label">Type of the
+                                            <label for="type_of_org" class="col-sm-3 col-form-label">Type of the
                                                 organization</label>
                                             <div class="col-sm-3">
-                                                <select class="custom-select" id="inputGroupSelect01" required>
-                                                    <option selected>Government organization</option>
+                                                <select class="custom-select" id="type_of_org" name="type_of_org" value="{{old('type_of_org')}}">
+                                                    <option value="0">Government organization</option>
                                                     <option value="1">One</option>
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
                                                 </select>
                                             </div>
 
-                                            <label for="name_of_company_eng" class="col-sm-3 col-form-label">Status of
+                                            <label for="status_of_org" class="col-sm-3 col-form-label">Status of
                                                 the organization<i class="fa fa-question-circle" aria-hidden="true"></i></label>
                                             <div class="col-sm-3">
-                                                <select class="custom-select" id="inputGroupSelect01">
+                                                <select class="custom-select" id="status_of_org" name="status_of_org">
                                                     <option selected>Select One</option>
                                                     <option value="1">One</option>
                                                     <option value="2">Two</option>
@@ -162,10 +168,10 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="name_of_company_eng" class="col-sm-3 col-form-label">Ownership
+                                            <label for="ownership_of_org" class="col-sm-3 col-form-label">Ownership
                                                 status</label>
                                             <div class="col-sm-3">
-                                                <select class="custom-select" id="inputGroupSelect01">
+                                                <select class="custom-select" id="ownership_of_org" name="ownership_of_org">
                                                     <option selected>Company</option>
                                                     <option value="1">One</option>
                                                     <option value="2">Two</option>
@@ -173,10 +179,10 @@
                                                 </select>
                                             </div>
 
-                                            <label for="name_of_company_eng" class="col-sm-3 col-form-label">Country of
+                                            <label for="country_of_org" class="col-sm-3 col-form-label">Country of
                                                 Origin<i class="fa fa-question-circle" aria-hidden="true"></i></label>
                                             <div class="col-sm-3">
-                                                <select class="custom-select" id="inputGroupSelect01" required>
+                                                <select class="custom-select" id="country_of_org" name="country_of_org">
                                                     <option selected>Select One</option>
                                                     <option value="1">One</option>
                                                     <option value="2">Two</option>
@@ -190,29 +196,49 @@
                                             <label for="name_of_the_project" class="col-sm-3 col-form-label">Name of the
                                                 project <i class="fa fa-question-circle" aria-hidden="true"></i></label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" for="name_of_the_project"
-                                                       id="name_of_the_project" value="" placeholder="" required>
+                                                <input type="text" class="form-control" name="name_of_the_project"
+                                                       id="name_of_the_project" value="{{old('name_of_the_project')}}" placeholder="" >
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="name_of_the_project" class="col-sm-3 col-form-label">Business
+                                            <label for="business_sector" class="col-sm-3 col-form-label">Business
                                                 Sector (BBS Class Code)
                                                 <i class="fa fa-question-circle" aria-hidden="true"></i></label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" for="name_of_the_project"
-                                                       id="name_of_the_project" value="" placeholder="">
-                                                <p class="text_color_1">if you don't know the code, please select from
-                                                    the list.</p>
+                                                <input type="text" class="form-control"
+                                                       id="business_sector" name="business_sector" value="{{old('business_sector')}}" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="name_of_the_project" class="col-sm-3 col-form-label">Major
+                                            <label for="major_activities" class="col-sm-3 col-form-label">Major
                                                 activities in brief</label>
                                             <div class="col-sm-9">
-                                                <textarea name="major_activites" id="major_activites"
+                                                <textarea name="major_activities" id="major_activities"
                                                           class=" form-control" rows="4"
-                                                          placeholder="Maximum 240 characters"></textarea>
+                                                          placeholder="Maximum 240 characters" value="{{old('major_activities')}}"></textarea>
                                                 <p class="text_color_1">0/240</p>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 col-md-3">
+
+                                                <lable class="col-form-label mt-2">Is this first project of this company?
+                                                    <font color="red">* </font>
+                                                </lable>
+                                            </div>
+                                            <div class="col-sm-12  col-md-4 col-sm-offset-6 ">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input " type="radio" name="first_or_not" id="first_or_not_One"
+                                                           value="1">
+                                                    <label class="form-check-label" for="first_or_not_One">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="first_or_not" id="first_or_not_Zero"
+                                                           value="0">
+                                                    <label class="form-check-label" for="first_or_not_Zero">No</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -236,7 +262,7 @@
                                                 <tr>
                                                     <td scope="row">a. Basic salary/Honorarium</td>
                                                     <td scope="row">
-                                                        <select class="custom-select" id="inputGroupSelect01" required>
+                                                        <select class="custom-select" id="inputGroupSelect01" >
                                                             <option selected>Monthly</option>
                                                             <option value="1">Half Yearly</option>
                                                             <option value="2">Yearly</option>
@@ -244,10 +270,10 @@
                                                     </td>
                                                     <td>
                                                         <input type="number" class="col-12 rounded" style="height:35px"
-                                                               placeholder="1010" required>
+                                                               placeholder="" name="basic_amount" value="{{old('basic_amount')}}">
                                                     </td>
                                                     <td scope="row">
-                                                        <select class="custom-select" id="inputGroupSelect01" required>
+                                                        <select class="custom-select" id="inputGroupSelect01" >
                                                             <option selected>PBA</option>
                                                             <option value="1">USD</option>
                                                             <option value="2">BDT</option>
@@ -265,8 +291,7 @@
                                                         </select>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="number" class="col-12  rounded" style="height:35px"
-                                                               placeholder="0.00">
+                                                        <input type="number" class="col-12  rounded" name="house_amount" value="{{old('house_amount')}}" style="height:35px">
                                                     </td>
                                                     <td scope="row">
                                                         <select class="custom-select" id="inputGroupSelect01">
@@ -282,7 +307,7 @@
 
                                                     <td scope="row" colspan="3">
                                                         <textarea name="fringe_benefits" id="fringe_benefits" cols="150"
-                                                                  class="rounded" rows="4"
+                                                                  class="rounded" rows="4" value="{{old('fringe_benefit')}}"
                                                                   placeholder="Maximum 250 characters"></textarea>
                                                     </td>
 
@@ -292,7 +317,6 @@
                                         </div>
                                     </fieldset>
                                 </div>
-
                             </div>
 
 
@@ -310,7 +334,7 @@
                                         <thead>
                                         <tr>
                                             <th scope="col">No.</th>
-                                            <th scope="col">Required attachment (you may prefer to select file from
+                                            <th scope="col"> attachment (you may prefer to select file from
                                                 recent attachment)<i class="fa fa-question-circle"
                                                                      aria-hidden="true"></i></th>
                                             <th scope="col">Attached PDF file (Each File Max. size 2MB)</th>
@@ -338,7 +362,7 @@
                                                                aria-describedby="inputGroupFileAddon02">Choose
                                                             file</label>
                                                         <input type="file" class="custom-file-input"
-                                                               id="inputGroupFile02" required>
+                                                               id="inputGroupFile02" >
                                                     </div>
                                                 </div>
                                             </td>
@@ -400,7 +424,6 @@
                                     </table>
 
                                 </div>
-
                             </div>
 
 
@@ -419,7 +442,7 @@
                                                 </label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="contact_name"
-                                                           name="contact_name" value="" placeholder="Reza" required>
+                                                           name="contact_name" value="{{old('contact_name')}}" placeholder="" >
                                                 </div>
                                             </div>
                                             <div class="row pb-1">
@@ -428,8 +451,8 @@
                                                     </font>
                                                 </label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="contact_phone"
-                                                           name="contact_phone" placeholder="01611211563" value="" required>
+                                                    <input type="text" class="form-control" id="contact_phone"
+                                                           name="contact_phone" value="{{old('contact_phone')}}" placeholder=""  >
                                                 </div>
                                             </div>
                                             <div class="row pb-1">
@@ -437,16 +460,16 @@
                                                     amount</label>
                                                 <div class="col-sm-8">
                                                     <input type="number" class="form-control" id="pay_amount"
-                                                           name="pay_amount" value="" placeholder="250" required>
+                                                           name="pay_amount" value="{{old('pay_amount')}}" placeholder="" >
                                                 </div>
                                             </div>
                                             <div class="row pb-1">
                                                 <label for="total_amount" class="col-sm-4 col-form-label">Total
                                                     amount</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="post_code"
-                                                           name="total_amount" class="form-control" id="total_amount"
-                                                           name="total_amount" value="" placeholder="250.00">
+                                                    <input type="number" class="form-control {{$errors->has('total_amount') ? 'has-error': ''}}"
+                                                           name="total_amount" id="total_amount" value="{{old('total_amount')}}">
+                                                    {!! $errors->first('total_amount','<span class="help-block">:message</span>') !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -458,9 +481,9 @@
                                                     </font>
                                                 </label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="contact_email"
-                                                           name="contact_email" value=""
-                                                           placeholder="rezabaiust@gmail.com" required>
+                                                    <input type="email" class="form-control" id="contact_email"
+                                                           name="contact_email" value="{{old('contact_email')}}"
+                                                           placeholder="">
                                                 </div>
                                             </div>
                                             <div class="row pb-1">
@@ -470,7 +493,7 @@
                                                 </label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="contact_address"
-                                                           name="contact_address" value="" placeholder="Dhaka" required>
+                                                           name="contact_address" value="{{old('contact_address')}}" placeholder="" >
                                                 </div>
                                             </div>
                                             <div class="row pb-1">
@@ -478,7 +501,7 @@
                                                     pay amount</label>
                                                 <div class="col-sm-8">
                                                     <input type="number" class="form-control" id="vat_on_pay_amount"
-                                                           name="vat_on_pay_amount" placeholder="0" value="">
+                                                           name="vat_on_pay_amount" value="{{old('vat_on_pay_amount')}}" placeholder="">
                                                 </div>
                                             </div>
 
@@ -502,9 +525,9 @@
                                         system and those will be visible here after payment submission.
                                     </div>
                                     <div class="form-group form-check mx-auto col-2">
-                                        <input type="checkbox" class="form-check-input" id="allInformationCorrect"
-                                               name="allInformationCorrect" required>
-                                        <label class="form-check-label" for="allInformationCorrect">All information are
+                                        <input type="checkbox" class="form-check-input" id="all_info_are_correct"
+                                               name="all_info_are_correct" value="all_correct">
+                                        <label class="form-check-label" for="all_info_are_correct">All information are
                                             correct</label>
                                     </div>
                                 </div>
@@ -512,8 +535,10 @@
                                 <div class="row mt-4 mb-5 pb-1">
                                     <div class="col-4">
                                         <button type="button" class="btn btn-info col-5">Save & Draft</button>
+                                        <!-- <button type="button" class="btn btn-info btn-lg mr-3">Save & Draft</button> -->
                                         <button type="submit" class="btn btn-success   col-5">Payment & Submit <i
                                                 class="fa fa-question-circle" aria-hidden="true"></i></button>
+                                        <!-- <button type="button" class="btn btn-succes btn-lg">Payment & Submit <i class="fa fa-question-circle" aria-hidden="true"></i> </button> -->
                                     </div>
                                     <div class="col-sm-4">
 
@@ -529,6 +554,8 @@
                         </div>
                     </div>
                 </form>
+
+                <!-- </div> -->
             </div>
         </div>
     </section>
